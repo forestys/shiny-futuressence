@@ -1,0 +1,23 @@
+{
+  "languages": ["en", "fr"],
+  "translation": [
+      {"en": "Calc zone", "fr": "Zone de calcul"},
+      {"en": "Specify the extent:\u2000", "fr": "Spécifier l'étendue:\u2000"},
+      {"en": "\u2000Specify a bounding box", "fr": "\u2000Spécifier la sélection"},
+      {"en": "\u2000Load a vector file", "fr": "\u2000Charger un fichier"},
+      {"en": "\u2000Draw it on the map", "fr": "\u2000Dessiner sur la carte"},
+      {"en": "\u2000Reload the extent on map", "fr": "\u2000Rafraîchir la carte"},
+      {"en": "Specify a bounding box", "fr": "Spécifier le cadre de la sélection"},
+      {"en": "Insert the coordinates of the bounding box:\n(Burgoundy : 46.8, 3.8, 5.8, 48.1)", "fr": "Insérer les coordonnées du cadre de la sélection :\n(Bourgogne : 46.8, 3.8, 5.8, 48.1)"},
+      {"en": "Specify the projection of the coordinates:", "fr": "Spécifier la projection des coordonnées :"},
+      {"en": "\u2000Ok", "fr": "\u2000Ok"},
+      {"en": "\u2000Cancel", "fr": "\u2000Annuler"},
+      {"en": "Select vector file", "fr": "Sélectionner le shapefile"},
+      {"en": "Chose the vector file to be used as extent.", "fr": "Choisir le fichier vecteur à utiliser pour l'étendue."},
+      {"en": "To upload a shapefile, select all the related files", "fr": "Pour télécharger un shapefile, sélectionner tous les fichiers"},
+      {"en": "(at most the .shp, .shx, .dbf and .prj ones must be present).", "fr": "(par défaut .shx, .shp, .dbf, .prj doivent au moins être présent)."},
+      {"en": "Draw the extent", "fr": "Dessiner l'étendue"},
+      {"en": "Use the tools on the left to draw the extent of your calc.", "fr": "Utiliser les outils à gauche pour dessiner l'étendue du calcul."},
+      {"en": "Map", "fr": "Carte"}
+    ]
+}
