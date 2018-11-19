@@ -29,7 +29,6 @@ function(input, output, session) {
       } else {
         return(FALSE)
       }
-
     } else if (extent_source == "vectfile") {
       # Vectfile mode #
       # check that the polygon is valid
@@ -39,7 +38,6 @@ function(input, output, session) {
       } else {
         return(FALSE)
       }
-
     } else if (extent_source == "draw") {
       # Drawn mode #
       # namespace for extent selection
@@ -51,13 +49,10 @@ function(input, output, session) {
       } else {
         x <- st_polygon(); attr(x, "valid") <- FALSE; x
       }
-
       if (!attr(sel_drawn, "valid")) {
         return(FALSE)
       }
-
       rv$extent <- sel_drawn
-
     } else if (extent_source == "imported") {
       # Imported from parameters #
       sel_imported_extent <- if (is.null(custom_source) | anyNA(custom_source)) {
@@ -69,17 +64,12 @@ function(input, output, session) {
         attr(x, "new") <- TRUE
         x
       }
-
       if (!attr(sel_imported_extent, "valid")) {
         return(FALSE)
       }
-
       rv$extent <- sel_imported_extent
-
     } else {
-
       # For any other value of extent_source, use the existing rv$extent
-
       if (is.null(rv$extent)) {
         return(FALSE)
       } else if (!attr(rv$extent, "valid")) {
@@ -87,16 +77,12 @@ function(input, output, session) {
       } else {
         attr(rv$extent, "new") <- FALSE
       }
-
     }
-
 
     # 2. Update the list of overlapping tiles and the tiles on the map
     if(length(rv$extent) > 0) {
-
       # buffer
       rv$extent <- rv$extent %>% st_transform(crs = 2154) %>% st_buffer(buffer)
-
       # reset and update the map
       react_map(base_map())
       rv$extent_ll <- st_transform(rv$extent, 4326)
@@ -109,26 +95,23 @@ function(input, output, session) {
           lat2 = max(st_coordinates(rv$extent_ll)[,"Y"])
         ) %>%
         # add extent
-        addPolygons(data = rv$extent,
+        addPolygons(data = rv$extent_ll,
                     group = "Extent",
                     # label = ~tile_id,
                     # labelOptions = labelOptions(noHide = TRUE, direction = "auto"),
                     fill = TRUE,
-                    fillColor = "green",
+                    fillColor = "blue",
                     fillOpacity = .3,
                     stroke = TRUE,
                     weight = 3,
                     color = "darkgreen") #%>%
     }
-
     return(TRUE)
-
   }
 
   #-- Create the map (once) --#
   base_map <- function() {
     leaflet() %>%
-
       # add tiles
       addTiles(group = "OpenStreetMap") %>%
       # addTiles(paste0("https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png",
@@ -149,14 +132,10 @@ function(input, output, session) {
       # addProviderTiles(providers$CartoDB.DarkMatterOnlyLabels, group = "Dark names") %>%
       addTiles("https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_only_labels/{z}/{x}/{y}.png",
                group = "Dark names") %>%
-      # addTiles(paste0("https://{s}.tile.thunderforest.com/spinal-map/{z}/{x}/{y}.png",
-      #                 if (!is.na(thunderforest_api)) {paste0("?apikey=",thunderforest_api)}),
-      #          group = "Metal or death") %>%
-
       # view and controls
       addLayersControl(
         baseGroups = c("OpenStreetMap", "OpenTopoMap", "CartoDB", "Satellite"),
-        overlayGroups = c("Light names","Dark names","S2 tiles","Extent"),
+        overlayGroups = c("Light names","Dark names","Extent"),
         options = layersControlOptions(collapsed = FALSE)
       ) %>%
       hideGroup(c("Light names","Dark names"))
@@ -370,7 +349,7 @@ function(input, output, session) {
           lng2 = max(st_coordinates(rv$vectfile_polygon_ll)[,"X"]),
           lat2 = max(st_coordinates(rv$vectfile_polygon_ll)[,"Y"])
         ) %>%
-        addPolygons(data = rv$vectfile_polygon,
+        addPolygons(data = rv$vectfile_polygon_ll,
                     group = "Extent",
                     # label = ~tile_id,
                     # labelOptions = labelOptions(noHide = TRUE, direction = "auto"),
@@ -452,7 +431,39 @@ function(input, output, session) {
     })
   })
 
-  ######"## end of extent module ############"
+  ######## end of extent module ############
+
+  ### Launch process calc ####
+
+  output$plot1 <- renderPlot({
+    # print(class(rv$extent))
+    # res <- futuressence::futuressence(fgeo='/home/pascal/Documents/forestys/data/groupe.shp',
+    #                     rep_travail= '/media/pascal/data2/forestys/tmp/',
+    #                     rep_projet='/media/pascal/data2/forestys/Essai/1_Pro_Silva_2018_5a',
+    #                     rep_data='/media/pascal/data2/forestys/Essai/2_Donnees',
+    #                     rep_clim='/media/pascal/data2/forestys/Climat')
+    # res$stressogramme
+    isolate({
+      withCallingHandlers(
+        {
+          shinyjs::html(id = "text00", html = "Go ! ")
+          res <- futuressence(fgeo=rv$extent,
+                              rep_projet='/media/pascal/data2/forestys/Essai/1_Pro_Silva_2018_5a',
+                              rep_data='/media/pascal/data2/forestys/Essai/2_Donnees',
+                              rep_clim='/media/pascal/data2/forestys/Climat')
+        },
+        message = function(m) {
+          shinyjs::html(id = "text00", html = m$message, add = TRUE)
+        },
+        warning = function(m) {
+          shinyjs::html(id = "text00", html = m$message, add = TRUE)
+        }
+      )
+      res$stressogramme
+    })
+  })
+
+
 
 
 }

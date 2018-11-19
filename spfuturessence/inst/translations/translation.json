@@ -18,6 +18,8 @@
       {"en": "(at most the .shp, .shx, .dbf and .prj ones must be present).", "fr": "(par défaut .shx, .shp, .dbf, .prj doivent au moins être présent)."},
       {"en": "Draw the extent", "fr": "Dessiner l'étendue"},
       {"en": "Use the tools on the left to draw the extent of your calc.", "fr": "Utiliser les outils à gauche pour dessiner l'étendue du calcul."},
-      {"en": "Map", "fr": "Carte"}
+      {"en": "Map", "fr": "Carte"},
+      {"en": "Processing launch...", "fr": "Lancer le calcul..."},
+      {"en": "Calc extent", "fr": "Étendue du calcul"}
     ]
 }
