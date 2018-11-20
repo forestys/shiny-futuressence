@@ -20,6 +20,11 @@
       {"en": "Use the tools on the left to draw the extent of your calc.", "fr": "Utiliser les outils à gauche pour dessiner l'étendue du calcul."},
       {"en": "Map", "fr": "Carte"},
       {"en": "Processing launch...", "fr": "Lancer le calcul..."},
-      {"en": "Calc extent", "fr": "Étendue du calcul"}
+      {"en": "Calc extent", "fr": "Étendue du calcul"},
+      {"en": "Graphe", "fr": "Graphe"},
+      {"en": "Species", "fr": "Essence"},
+      {"en": "Press to launch calc", "fr": "Cliquez pour lancer le calcul"},
+      {"en": "Calc progress...", "fr": "Calcul en cours..."},
+      {"en": "It take very long times...", "fr": "Ça prend beaucoup de temps..."}
     ]
 }

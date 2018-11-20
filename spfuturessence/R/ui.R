@@ -72,9 +72,37 @@ dashboardPage(
           ), # en first tab content
       # Second tab content
       tabItem(tabName = "tab_launch_processing",
+              tags$head(
+                tags$style(HTML("
+                    .shiny-output-error-validation {
+                    color: red;
+                    }
+                    "))
+              ),
+              shinyjs::useShinyjs(),
               h2(i18n$t("Processing launch...")),
-              textOutput("text00"),
-              box(plotOutput("plot1", height = 500))
+              box(
+                title = i18n$t("Graphe"),
+                status = "primary",
+                solidHeader = TRUE,
+                collapsible = TRUE,
+                # Graphe
+                plotOutput("plot1", height = 500)
+              ),
+              box(
+                title = i18n$t("Species"),
+                status = "primary",
+                solidHeader = TRUE,
+                collapsible = TRUE,
+                # Graphe
+                plotOutput("plot2", height = 500)
+              ),
+              column(12, actionButton(
+                "goButton", i18n$t("Press to launch calc"), icon("refresh"),
+                class = "btn btn-primary"
+              )),
+              br(),
+              column(12, textOutput("text00"))
       )
     )
   )

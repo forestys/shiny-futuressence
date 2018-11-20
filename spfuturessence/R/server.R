@@ -436,18 +436,20 @@ function(input, output, session) {
   ### Launch process calc ####
 
   output$plot1 <- renderPlot({
-    # print(class(rv$extent))
-    # res <- futuressence::futuressence(fgeo='/home/pascal/Documents/forestys/data/groupe.shp',
-    #                     rep_travail= '/media/pascal/data2/forestys/tmp/',
-    #                     rep_projet='/media/pascal/data2/forestys/Essai/1_Pro_Silva_2018_5a',
-    #                     rep_data='/media/pascal/data2/forestys/Essai/2_Donnees',
-    #                     rep_clim='/media/pascal/data2/forestys/Climat')
-    # res$stressogramme
+    input$goButton
+    if (input$goButton == 0) return(NULL)
+    fgeo <- rv$extent %>% st_transform(crs = 27572)
+    maxi <- 3
+    progress <- Progress$new(session, min=1, max=maxi)
+    on.exit(progress$close())
+    progress$set(message = i18n$t("Calc progress..."),
+                 detail = i18n$t("It take very long times..."), value = 1)
     isolate({
       withCallingHandlers(
         {
           shinyjs::html(id = "text00", html = "Go ! ")
-          res <- futuressence(fgeo=rv$extent,
+          progress$set(value = maxi - 1)
+          res <- futuressence::futuressence(fgeo=fgeo,
                               rep_projet='/media/pascal/data2/forestys/Essai/1_Pro_Silva_2018_5a',
                               rep_data='/media/pascal/data2/forestys/Essai/2_Donnees',
                               rep_clim='/media/pascal/data2/forestys/Climat')
@@ -462,8 +464,6 @@ function(input, output, session) {
       res$stressogramme
     })
   })
-
-
 
 
 }
