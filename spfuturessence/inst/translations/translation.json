@@ -25,6 +25,7 @@
       {"en": "Species", "fr": "Essence"},
       {"en": "Press to launch calc", "fr": "Cliquez pour lancer le calcul"},
       {"en": "Calc progress...", "fr": "Calcul en cours..."},
-      {"en": "It take very long times...", "fr": "Ça prend beaucoup de temps..."}
+      {"en": "It take very long times...", "fr": "Ça prend beaucoup de temps..."},
+      {"en": "Create graphe", "fr": "Création du graphique"}
     ]
 }

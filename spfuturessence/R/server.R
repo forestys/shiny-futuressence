@@ -435,7 +435,7 @@ function(input, output, session) {
 
   ### Launch process calc ####
 
-  output$plot1 <- renderPlot({
+  plotdata <- reactive({
     input$goButton
     if (input$goButton == 0) return(NULL)
     fgeo <- rv$extent %>% st_transform(crs = 27572)
@@ -450,19 +450,43 @@ function(input, output, session) {
           shinyjs::html(id = "text00", html = "Go ! ")
           progress$set(value = maxi - 1)
           res <- futuressence::futuressence(fgeo=fgeo,
-                              rep_projet='/media/pascal/data2/forestys/Essai/1_Pro_Silva_2018_5a',
-                              rep_data='/media/pascal/data2/forestys/Essai/2_Donnees',
-                              rep_clim='/media/pascal/data2/forestys/Climat')
+                                            rep_projet='/media/pascal/data2/forestys/Essai/1_Pro_Silva_2018_5a',
+                                            rep_data='/media/pascal/data2/forestys/Essai/2_Donnees',
+                                            rep_clim='/media/pascal/data2/forestys/Climat')
         },
         message = function(m) {
           shinyjs::html(id = "text00", html = m$message, add = TRUE)
-        },
-        warning = function(m) {
-          shinyjs::html(id = "text00", html = m$message, add = TRUE)
         }
       )
-      res$stressogramme
+      res
     })
+  })
+  # Plot 1 stressogramme
+  output$plot1 <- renderPlot({
+    input$goButton
+    if (input$goButton == 0) return(NULL)
+    isolate({
+      withProgress(message = paste("Create graphe", "(1/2)"), style = 'notification', value = 0.5, {
+        Sys.sleep(0.25)
+        p <- plotdata()
+        incProgress(1)
+      })
+      p$stressogramme
+    })
+  })
+
+  # species select
+  selectedSpecies <- reactive({
+    input$species
+  })
+
+  # Plot 2 futur sur present par essence
+  output$plot2 <- renderPlot({
+    input$goButton
+    if (input$goButton == 0) return(NULL)
+    p <- plotdata()
+    s <- selectedSpecies()
+    plot(p$species[[s]]$fsurp)
   })
 
 

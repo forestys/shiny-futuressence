@@ -87,13 +87,17 @@ dashboardPage(
                 solidHeader = TRUE,
                 collapsible = TRUE,
                 # Graphe
-                plotOutput("plot1", height = 500)
+                plotOutput("plot1", height = 575)
               ),
               box(
                 title = i18n$t("Species"),
                 status = "primary",
                 solidHeader = TRUE,
                 collapsible = TRUE,
+                # liste des essences
+                selectInput("species", "Species :", c("abal", "piab", "piha", "pisy", "acca", "acmo", "acop", "acpl", "acps", "algl",
+                                                  "bepu", "cabe", "fasy", "frex", "quil", "qupe", "qupu", "quro", "rops", "saal", "saca", "saci",
+                                                  "soar", "soau", "soto", "tico", "tipl", "ulgl", "ulmi", "bepe", "fran", "prav", "casa")),
                 # Graphe
                 plotOutput("plot2", height = 500)
               ),
